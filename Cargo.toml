@@ -1,0 +1,32 @@
+[package]
+name = "show-me"
+version = "0.0.0"
+description = "A Tauri App"
+authors = ["you"]
+license = ""
+repository = ""
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[build-dependencies]
+tauri-build = { version = "1.4", features = [] }
+
+[dependencies]
+tauri = { version = "1.4", features = ["shell-open"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+sysinfo = "0.29.2"
+env_logger = "0.10.0"
+log = "0.4.19"
+tokio = "1.28.2"
+tokio-test = "0.4.2"
+reqwest = "0.11.18"
+window-shadows = "0.2.1"
+base64 = "0.21.2"
+tungstenite = { version = "0.19.0", features = ["native-tls"] }
+
+[features]
+# this feature is used for production builds or when `devPath` points to the filesystem
+# DO NOT REMOVE!!
+custom-protocol = ["tauri/custom-protocol"]
