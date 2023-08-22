@@ -90,7 +90,7 @@ pub async fn connect<R: Runtime>(window: tauri::Window<R>) -> Result<(), Error> 
         if let Some(r) = &RUNNING {
             if !r.is_finished() {
                 debug!("websocket 连接已存在");
-                return Ok(());
+                Err("连接已经存在")?
             }
         }
     }

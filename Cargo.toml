@@ -1,8 +1,8 @@
 [package]
 name = "show-me"
-version = "0.0.0"
+version = "0.0.1"
 description = "A Tauri App"
-authors = ["you"]
+authors = ["Shawn"]
 license = ""
 repository = ""
 edition = "2021"
@@ -13,7 +13,7 @@ edition = "2021"
 tauri-build = { version = "1.4", features = [] }
 
 [dependencies]
-tauri = { version = "1.4", features = ["shell-open"] }
+tauri = { version = "1.4", features = [ "window-close", "window-start-dragging", "window-unminimize", "window-show", "window-maximize", "window-minimize", "window-hide", "window-unmaximize", "http-all", "shell-open"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 sysinfo = "0.29.2"
@@ -25,6 +25,7 @@ reqwest = "0.11.18"
 window-shadows = "0.2.1"
 base64 = "0.21.2"
 tungstenite = { version = "0.19.0", features = ["native-tls"] }
+
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem

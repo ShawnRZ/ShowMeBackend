@@ -1,6 +1,7 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+pub mod cer;
 pub mod game;
 pub mod lcu;
 pub mod sgp;
@@ -11,10 +12,13 @@ use std::error::Error;
 
 use env_logger::Env;
 use lcu::match_history::LolMatchHistoryMatchHistoryGame;
+use lcu::ranked_stats::RankedStats;
 use lcu::summoner::Summoner as LcuSummoner;
 use lcu::{match_history::MatchHistory, parameter::Parameter};
 use log::{debug, error, info, trace, warn};
+use tauri::Manager;
 use tokio::task::JoinSet;
+use window_shadows::set_shadow;
 
 #[tauri::command]
 async fn get_parameter() -> Result<Parameter, String> {
@@ -115,6 +119,28 @@ async fn get_match_by_id(id: u64) -> Result<LolMatchHistoryMatchHistoryGame, Str
     Ok(mh.games.unwrap().games.unwrap().remove(0))
 }
 
+#[tauri::command]
+async fn get_ranked_stats(puuid: String) -> Result<RankedStats, String> {
+    let r = lcu::request::get_ranked_stats(&puuid)
+        .await
+        .map_err(|e| e.to_string())?;
+    Ok(r)
+}
+
+#[tauri::command]
+async fn launch_spectate(puuid: String) -> Result<(), String> {
+    lcu::request::spectate(&puuid)
+        .await
+        .map_err(|e| e.to_string())?;
+    Ok(())
+}
+
+#[tauri::command]
+async fn test_and_set_cer() -> Result<bool, String> {
+    let res = cer::test_and_set().map_err(|e| e.to_string())?;
+    Ok(res)
+}
+
 fn main() {
     env_logger::Builder::from_env(Env::default().default_filter_or("debug")).init();
 
@@ -125,6 +151,11 @@ fn main() {
     trace!("trace");
 
     tauri::Builder::default()
+        .setup(|app| {
+            let window = app.get_window("main").unwrap();
+            set_shadow(&window, true).expect("Unsupported platform!");
+            Ok(())
+        })
         .invoke_handler(tauri::generate_handler![
             connect,
             get_parameter,
@@ -134,6 +165,9 @@ fn main() {
             get_summoner_by_name,
             get_match_history_by_puuid,
             get_match_by_id,
+            get_ranked_stats,
+            launch_spectate,
+            test_and_set_cer,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

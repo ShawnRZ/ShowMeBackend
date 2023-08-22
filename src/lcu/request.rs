@@ -195,6 +195,31 @@ pub async fn get_summoner_by_id(id: u64) -> Result<Summoner, Error> {
     Ok(s)
 }
 
+pub async fn spectate(puuid: &str) -> Result<(), Error> {
+    let lp = Parameter::get().await?;
+    let token = lp.token;
+    let port = lp.port;
+    Client::new()
+        .post(std::format!(
+            "https://127.0.0.1:{}{}",
+            port,
+            "/lol-gameflow/v2/spectate/launch"
+        ))
+        .basic_auth("riot", Some(token))
+        .body(std::format!(
+            r#"{{
+            "gameQueueType": "",
+            "dropInSpectateGameId": "",
+            "puuid": "{puuid}",
+            "allowObserveMode": ""
+        }}"#
+        ))
+        .send()
+        .await?
+        .error_for_status()?;
+    Ok(())
+}
+
 #[cfg(test)]
 mod tests {
 
@@ -273,6 +298,13 @@ mod tests {
     fn test_get_summoner_by_id() {
         tokio_test::block_on(Parameter::refresh()).unwrap();
         let s = tokio_test::block_on(get_summoner_by_id(4011172159)).unwrap();
+        println!("{:#?}", s);
+    }
+
+    #[test]
+    fn test_spectate() {
+        tokio_test::block_on(Parameter::refresh()).unwrap();
+        let s = tokio_test::block_on(spectate("ae3ac102-09f4-54c7-81e4-384947927e35")).unwrap();
         println!("{:#?}", s);
     }
 }

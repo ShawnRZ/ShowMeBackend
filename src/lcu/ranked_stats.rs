@@ -11,13 +11,13 @@ pub struct RankedStats {
     highest_previous_season_achieved_division: Option<LolRankedLeagueDivision>,
 
     #[serde(rename = "highestPreviousSeasonAchievedTier")]
-    highest_previous_season_achieved_tier: Option<LolRankedLeagueTier>,
+    highest_previous_season_achieved_tier: Option<String>,
 
     #[serde(rename = "highestPreviousSeasonEndDivision")]
     highest_previous_season_end_division: Option<LolRankedLeagueDivision>,
 
     #[serde(rename = "highestPreviousSeasonEndTier")]
-    highest_previous_season_end_tier: Option<LolRankedLeagueTier>,
+    highest_previous_season_end_tier: Option<String>,
 
     #[serde(rename = "highestRankedEntry")]
     highest_ranked_entry: Option<LolRankedRankedQueueStats>,
@@ -63,13 +63,13 @@ pub struct LolRankedRankedQueueStats {
     previous_season_achieved_division: Option<LolRankedLeagueDivision>,
 
     #[serde(rename = "previousSeasonAchievedTier")]
-    previous_season_achieved_tier: Option<LolRankedLeagueTier>,
+    previous_season_achieved_tier: Option<String>,
 
     #[serde(rename = "previousSeasonEndDivision")]
     previous_season_end_division: Option<LolRankedLeagueDivision>,
 
     #[serde(rename = "previousSeasonEndTier")]
-    previous_season_end_tier: Option<LolRankedLeagueTier>,
+    previous_season_end_tier: Option<String>,
 
     #[serde(rename = "provisionalGamesRemaining")]
     provisional_games_remaining: Option<i64>,
@@ -78,7 +78,7 @@ pub struct LolRankedRankedQueueStats {
     provisional_game_threshold: Option<i64>,
 
     #[serde(rename = "queueType")]
-    queue_type: Option<LolRankedLeagueQueueType>,
+    queue_type: Option<String>,
 
     #[serde(rename = "ratedRating")]
     rated_rating: Option<i64>,
@@ -87,7 +87,7 @@ pub struct LolRankedRankedQueueStats {
     rated_tier: Option<LolRankedRatedTier>,
 
     #[serde(rename = "tier")]
-    tier: Option<LolRankedLeagueTier>,
+    tier: Option<String>,
 
     // #[serde(rename = "warnings")]
     // warnings: Option<LolRankedRankedQueueWarnings>,
@@ -148,67 +148,67 @@ pub enum LolRankedLeagueDivision {
 }
 
 /// LolRankedLeagueTier
-#[derive(Debug, Serialize, Deserialize)]
-pub enum LolRankedLeagueTier {
-    #[serde(rename = "BRONZE")]
-    Bronze,
+// #[derive(Debug, Serialize, Deserialize)]
+// pub enum LolRankedLeagueTier {
+//     #[serde(rename = "BRONZE")]
+//     Bronze,
 
-    #[serde(rename = "CHALLENGER")]
-    Challenger,
+//     #[serde(rename = "CHALLENGER")]
+//     Challenger,
 
-    #[serde(rename = "DIAMOND")]
-    Diamond,
+//     #[serde(rename = "DIAMOND")]
+//     Diamond,
 
-    #[serde(rename = "GOLD")]
-    Gold,
+//     #[serde(rename = "GOLD")]
+//     Gold,
 
-    #[serde(rename = "GRANDMASTER")]
-    Grandmaster,
+//     #[serde(rename = "GRANDMASTER")]
+//     Grandmaster,
 
-    #[serde(rename = "IRON")]
-    Iron,
+//     #[serde(rename = "IRON")]
+//     Iron,
 
-    #[serde(rename = "MASTER")]
-    Master,
+//     #[serde(rename = "MASTER")]
+//     Master,
 
-    #[serde(rename = "NONE")]
-    #[serde(alias = "")]
-    None,
+//     #[serde(rename = "NONE")]
+//     #[serde(alias = "")]
+//     None,
 
-    #[serde(rename = "PLATINUM")]
-    Platinum,
+//     #[serde(rename = "PLATINUM")]
+//     Platinum,
 
-    #[serde(rename = "SILVER")]
-    Silver,
-}
+//     #[serde(rename = "SILVER")]
+//     Silver,
+// }
 
 /// LolRankedLeagueQueueType
-#[derive(Debug, Serialize, Deserialize)]
-pub enum LolRankedLeagueQueueType {
-    #[serde(rename = "NONE")]
-    None,
+// #[derive(Debug, Serialize, Deserialize)]
+// pub enum LolRankedLeagueQueueType {
+//     #[serde(rename = "NONE")]
+//     None,
 
-    #[serde(rename = "RANKED_FLEX_SR")]
-    RankedFlexSr,
+//     #[serde(rename = "RANKED_FLEX_SR")]
+//     RankedFlexSr,
 
-    #[serde(rename = "RANKED_FLEX_TT")]
-    RankedFlexTt,
+//     #[serde(rename = "RANKED_FLEX_TT")]
+//     RankedFlexTt,
 
-    #[serde(rename = "RANKED_SOLO_5x5")]
-    RankedSolo5X5,
+//     #[serde(rename = "RANKED_SOLO_5x5")]
+//     RankedSolo5X5,
 
-    #[serde(rename = "RANKED_TFT")]
-    RankedTft,
+//     #[serde(rename = "RANKED_TFT")]
+//     RankedTft,
 
-    #[serde(rename = "RANKED_TFT_PAIRS")]
-    RankedTftPairs,
+//     #[serde(rename = "RANKED_TFT_PAIRS")]
+//     RankedTftPairs,
 
-    #[serde(rename = "RANKED_TFT_TURBO")]
-    RankedTftTurbo,
+//     #[serde(rename = "RANKED_TFT_TURBO")]
+//     RankedTftTurbo,
 
-    #[serde(rename = "RANKED_TFT_DOUBLE_UP")]
-    RankedTftDoubleUp,
-}
+//     #[serde(rename = "RANKED_TFT_DOUBLE_UP")]
+//     RankedTftDoubleUp,
+// }
 
 /// LolRankedRatedTier
 #[derive(Debug, Serialize, Deserialize)]
