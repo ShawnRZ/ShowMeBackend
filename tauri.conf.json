@@ -17,7 +17,8 @@
         "all": true,
         "request": true,
         "scope": [
-          "https://raw.communitydragon.org/*"
+          "https://raw.communitydragon.org/*",
+          "https://game.gtimg.cn/*"
         ]
       },
       "shell": {
