@@ -64,11 +64,11 @@ async fn get_current_summoner() -> Result<LcuSummoner, String> {
 async fn get_summoner_by_name(name: String) -> Result<LcuSummoner, String> {
     let mut set: JoinSet<Result<LcuSummoner, Box<dyn Error + Send + Sync>>> = JoinSet::new();
     set.spawn(lcu::request::get_summoner_by_name(name.clone()));
-    let region = lcu::parameter::Parameter::get()
-        .await
-        .map_err(|e| e.to_string())?
-        .region;
-    set.spawn(sgp::request::get_summoner_by_name(name.clone(), region));
+    // let region = lcu::parameter::Parameter::get()
+    //     .await
+    //     .map_err(|e| e.to_string())?
+    //     .region;
+    // set.spawn(sgp::request::get_summoner_by_name(name.clone(), region));
 
     let s = set
         .join_next()
@@ -90,7 +90,7 @@ async fn get_match_history_by_puuid(
 
     set.spawn(lcu::request::get_match_history(puuid.clone(), beg, end));
 
-    set.spawn(sgp::request::get_match_history(puuid, beg, end - beg + 1));
+    // set.spawn(sgp::request::get_match_history(puuid, beg, end - beg + 1));
 
     let mh = set
         .join_next()
@@ -108,7 +108,8 @@ async fn get_match_by_id(id: u64) -> Result<LolMatchHistoryMatchHistoryGame, Str
 
     set.spawn(lcu::request::get_match_by_id(id));
 
-    set.spawn(sgp::request::get_match_by_id(id));
+    // set.spawn(sgp::request::get_match_by_id(id));
+    
     let mh = set
         .join_next()
         .await
