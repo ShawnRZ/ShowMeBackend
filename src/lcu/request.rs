@@ -187,7 +187,7 @@ pub async fn get_champ_select_session() -> Result<String, Error> {
     // todo!()
 }
 
-pub async fn get_summoner_by_id(id: u64) -> Result<Summoner, Error> {
+pub async fn get_summoner_by_id(id: &str) -> Result<Summoner, Error> {
     let path = std::format!("/lol-summoner/v1/summoners/{id}");
     let res = get(&path).await?.send().await?.error_for_status()?;
     let res = res.text().await?;
@@ -297,7 +297,7 @@ mod tests {
     #[test]
     fn test_get_summoner_by_id() {
         tokio_test::block_on(Parameter::refresh()).unwrap();
-        let s = tokio_test::block_on(get_summoner_by_id(4011172159)).unwrap();
+        let s = tokio_test::block_on(get_summoner_by_id("4011172159")).unwrap();
         println!("{:#?}", s);
     }
 

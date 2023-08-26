@@ -143,8 +143,8 @@ async fn test_and_set_cer() -> Result<bool, String> {
 }
 
 #[tauri::command]
-async fn get_summoner_by_id(id: u64) -> Result<LcuSummoner, String> {
-    let s = lcu::request::get_summoner_by_id(id)
+async fn get_summoner_by_id(id: String) -> Result<LcuSummoner, String> {
+    let s = lcu::request::get_summoner_by_id(&id)
         .await
         .map_err(|e| e.to_string())?;
     Ok(s)
