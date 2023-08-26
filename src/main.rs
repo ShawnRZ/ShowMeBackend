@@ -109,7 +109,7 @@ async fn get_match_by_id(id: u64) -> Result<LolMatchHistoryMatchHistoryGame, Str
     set.spawn(lcu::request::get_match_by_id(id));
 
     // set.spawn(sgp::request::get_match_by_id(id));
-    
+
     let mh = set
         .join_next()
         .await
@@ -142,6 +142,14 @@ async fn test_and_set_cer() -> Result<bool, String> {
     Ok(res)
 }
 
+#[tauri::command]
+async fn get_summoner_by_id(id: u64) -> Result<LcuSummoner, String> {
+    let s = lcu::request::get_summoner_by_id(id)
+        .await
+        .map_err(|e| e.to_string())?;
+    Ok(s)
+}
+
 fn main() {
     env_logger::Builder::from_env(Env::default().default_filter_or("debug")).init();
 
@@ -169,6 +177,7 @@ fn main() {
             get_ranked_stats,
             launch_spectate,
             test_and_set_cer,
+            get_summoner_by_id,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
