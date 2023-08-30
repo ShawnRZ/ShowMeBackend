@@ -24,7 +24,7 @@ fn message_handler<R: Runtime>(msg: String, window: &tauri::Window<R>) {
         .strip_suffix(r#"""#)
         .unwrap();
 
-    debug!("uri: {:#?}", uri);
+    // debug!("uri: {:#?}", uri);
 
     if uri == "/lol-gameflow/v1/gameflow-phase" {
         debug!("{}", v[2]["data"]);
@@ -76,11 +76,14 @@ fn message_handler<R: Runtime>(msg: String, window: &tauri::Window<R>) {
             }
         }
     } else if uri.starts_with("/lol-champ-select/v1/grid-champions/") {
-        debug!("选择英雄: ");
-        debug!("{}:{}", v[2]["data"]["id"], v[2]["data"]["name"]);
-        window
-            .emit("ChampSelect", v[2]["data"]["id"].to_string())
-            .unwrap();
+        let pick_intented = &v[2]["data"]["selectionStatus"]["pickIntented"];
+        if Value::Bool(true) == *pick_intented {
+            debug!("选择英雄: ");
+            debug!("{}:{}", v[2]["data"]["id"], v[2]["data"]["name"]);
+            window
+                .emit("ChampSelect", v[2]["data"]["id"].to_string())
+                .unwrap();
+        }
     }
 }
 

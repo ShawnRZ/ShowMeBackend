@@ -132,67 +132,74 @@ pub async fn get_sgp_token() -> Result<String, Error> {
 }
 
 pub async fn get_champ_select_session() -> Result<String, Error> {
-    let res = get("/lol-champ-select-legacy/v1/session")
+    let res = get("/lol-champ-select/v1/session")
         .await?
         .send()
         .await?
         .error_for_status()?;
     let res = res.text().await?;
-    let res: Value = serde_json::from_str(&res)?;
+    // let res: Value = serde_json::from_str(&res)?;
 
-    let mut my_team = Vec::new();
-    for v in res["myTeam"]
-        .as_array()
-        .ok_or("myTeam 字段不存在或不是数组")?
-    {
-        let cell_id = v["cellId"].as_i64();
-        let champion_id = v["championId"].as_i64();
-        let team = v["team"].as_i64();
-        let summoner_id = v["summonerId"].as_i64();
+    // let mut my_team = Vec::new();
+    // for v in res["myTeam"]
+    //     .as_array()
+    //     .ok_or("myTeam 字段不存在或不是数组")?
+    // {
+    //     let cell_id = v["cellId"].as_i64();
+    //     let champion_id = v["championId"].as_i64();
+    //     let team = v["team"].as_i64();
+    //     let summoner_id = v["summonerId"].as_i64();
 
-        let player = serde_json::json!({
-            "cellId": cell_id,
-            "championId": champion_id,
-            "team": team,
-            "summonerId": summoner_id,
-        });
-        my_team.push(player);
-    }
+    //     let player = serde_json::json!({
+    //         "cellId": cell_id,
+    //         "championId": champion_id,
+    //         "team": team,
+    //         "summonerId": summoner_id,
+    //     });
+    //     my_team.push(player);
+    // }
 
-    let mut their_team = Vec::new();
-    for v in res["myTeam"]
-        .as_array()
-        .ok_or("theirTeam 字段不存在或不是数组")?
-    {
-        let cell_id = v["cellId"].as_i64();
-        let champion_id = v["championId"].as_i64();
-        let team = v["team"].as_i64();
-        let summoner_id = v["summonerId"].as_i64();
+    // let mut their_team = Vec::new();
+    // for v in res["myTeam"]
+    //     .as_array()
+    //     .ok_or("theirTeam 字段不存在或不是数组")?
+    // {
+    //     let cell_id = v["cellId"].as_i64();
+    //     let champion_id = v["championId"].as_i64();
+    //     let team = v["team"].as_i64();
+    //     let summoner_id = v["summonerId"].as_i64();
 
-        let player = serde_json::json!({
-            "cellId": cell_id,
-            "championId": champion_id,
-            "team": team,
-            "summonerId": summoner_id,
-        });
-        their_team.push(player);
-    }
+    //     let player = serde_json::json!({
+    //         "cellId": cell_id,
+    //         "championId": champion_id,
+    //         "team": team,
+    //         "summonerId": summoner_id,
+    //     });
+    //     their_team.push(player);
+    // }
 
-    let res = serde_json::json!({
-        "myTeam": my_team,
-        "theirTeam": their_team,
-    });
+    // let res = serde_json::json!({
+    //     "myTeam": my_team,
+    //     "theirTeam": their_team,
+    // });
 
-    Ok(res.to_string())
-    // todo!()
+    // Ok(res.to_string())
+    Ok(res)
 }
 
-pub async fn get_summoner_by_id(id: &str) -> Result<Summoner, Error> {
+pub async fn get_summoner_by_id(id: u64) -> Result<Summoner, Error> {
     let path = std::format!("/lol-summoner/v1/summoners/{id}");
     let res = get(&path).await?.send().await?.error_for_status()?;
     let res = res.text().await?;
     let s: Summoner = serde_json::from_str(&res)?;
     Ok(s)
+}
+
+pub async fn get_gameflow_session() -> Result<Value, Error> {
+    let path = "/lol-gameflow/v1/session";
+    let res = get(&path).await?.send().await?.error_for_status()?;
+    let session = Value::from(res.text().await?);
+    Ok(session)
 }
 
 pub async fn spectate(puuid: &str) -> Result<(), Error> {
@@ -297,7 +304,7 @@ mod tests {
     #[test]
     fn test_get_summoner_by_id() {
         tokio_test::block_on(Parameter::refresh()).unwrap();
-        let s = tokio_test::block_on(get_summoner_by_id("4011172159")).unwrap();
+        let s = tokio_test::block_on(get_summoner_by_id(4011172159)).unwrap();
         println!("{:#?}", s);
     }
 

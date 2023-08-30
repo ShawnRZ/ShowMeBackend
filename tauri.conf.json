@@ -34,7 +34,8 @@
         "minimize": true,
         "unmaximize": true,
         "unminimize": true,
-        "startDragging": true
+        "startDragging": true,
+        "setAlwaysOnTop": true
       }
     },
     "bundle": {
@@ -55,7 +56,7 @@
     "windows": [
       {
         "fullscreen": false,
-        "resizable": true,
+        "resizable": false,
         "title": "ShowMe",
         "width": 1280,
         "height": 720,

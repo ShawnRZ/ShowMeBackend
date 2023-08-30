@@ -16,6 +16,7 @@ use lcu::ranked_stats::RankedStats;
 use lcu::summoner::Summoner as LcuSummoner;
 use lcu::{match_history::MatchHistory, parameter::Parameter};
 use log::{debug, error, info, trace, warn};
+use serde_json::Value;
 use tauri::Manager;
 use tokio::task::JoinSet;
 use window_shadows::set_shadow;
@@ -143,8 +144,16 @@ async fn test_and_set_cer() -> Result<bool, String> {
 }
 
 #[tauri::command]
-async fn get_summoner_by_id(id: String) -> Result<LcuSummoner, String> {
-    let s = lcu::request::get_summoner_by_id(&id)
+async fn get_summoner_by_id(id: u64) -> Result<LcuSummoner, String> {
+    let s = lcu::request::get_summoner_by_id(id)
+        .await
+        .map_err(|e| e.to_string())?;
+    Ok(s)
+}
+
+#[tauri::command]
+async fn get_gameflow_session() -> Result<Value, String> {
+    let s = lcu::request::get_gameflow_session()
         .await
         .map_err(|e| e.to_string())?;
     Ok(s)
@@ -178,6 +187,7 @@ fn main() {
             launch_spectate,
             test_and_set_cer,
             get_summoner_by_id,
+            get_gameflow_session,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
