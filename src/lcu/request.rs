@@ -2,10 +2,10 @@ use super::{
     match_history::{
         LolMatchHistoryMatchHistoryGame, LolMatchHistoryMatchHistoryGameList, MatchHistory,
     },
-    parameter::Parameter,
     ranked_stats::RankedStats,
     summoner::Summoner,
 };
+use crate::parameter::Parameter;
 use reqwest::{Client, RequestBuilder};
 use serde_json::Value;
 

@@ -1,4 +1,4 @@
-use crate::lcu::parameter::Parameter;
+use crate::parameter::Parameter;
 use base64::prelude::*;
 use log::debug;
 use serde_json::Value;

@@ -4,6 +4,7 @@
 pub mod cer;
 pub mod game;
 pub mod lcu;
+pub mod parameter;
 pub mod sgp;
 pub mod summoner;
 pub mod websocket;
@@ -12,10 +13,11 @@ use std::error::Error;
 
 use env_logger::Env;
 use lcu::match_history::LolMatchHistoryMatchHistoryGame;
+use lcu::match_history::MatchHistory;
 use lcu::ranked_stats::RankedStats;
 use lcu::summoner::Summoner as LcuSummoner;
-use lcu::{match_history::MatchHistory, parameter::Parameter};
 use log::{debug, error, info, trace, warn};
+use parameter::Parameter;
 use serde_json::Value;
 use tauri::Manager;
 use tokio::task::JoinSet;

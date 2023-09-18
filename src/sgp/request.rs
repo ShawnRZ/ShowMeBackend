@@ -2,9 +2,10 @@ use super::{
     match_history::{Game, MatchHistory},
     summoner::Summoner,
 };
+use crate::lcu::match_history::MatchHistory as LcuMatchHistory;
 use crate::lcu::request::get_sgp_token;
 use crate::lcu::summoner::Summoner as LcuSummoner;
-use crate::lcu::{self, match_history::MatchHistory as LcuMatchHistory};
+use crate::parameter::Parameter;
 use reqwest::{Client, IntoUrl, RequestBuilder};
 use serde_json::Value;
 use std::{collections::HashMap, mem::MaybeUninit, sync::Once};
@@ -88,7 +89,7 @@ pub async fn get_match_history(
     count: u64,
 ) -> Result<LcuMatchHistory, Error> {
     let path = std::format!("/match-history-query/v1/products/lol/player/{puuid}/SUMMARY");
-    let region = lcu::parameter::Parameter::get().await?.region;
+    let region = Parameter::get().await?.region;
     let host = get_server_info(&region)?.0;
     let url = std::format!("{host}{path}");
     let res = get(url)
@@ -155,7 +156,7 @@ pub async fn get_ranked_stats(puuid: &str, region: &str) -> Result<String, Error
 }
 
 pub async fn get_match_by_id(match_id: u64) -> Result<LcuMatchHistory, Error> {
-    let region = &lcu::parameter::Parameter::get().await?.region;
+    let region = &Parameter::get().await?.region;
     let server = get_server_info(region)?;
     let host = server.0;
     let match_id = std::format!("{}_{}", server.1, match_id);
@@ -172,7 +173,7 @@ pub async fn get_match_by_id(match_id: u64) -> Result<LcuMatchHistory, Error> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::lcu::parameter::Parameter;
+    use crate::parameter::Parameter;
 
     #[test]
     fn test_get_match_by_id() {
